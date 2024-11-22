@@ -1,4 +1,4 @@
-"use client"; // Mark this component as client-side
+"use client";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -26,12 +26,11 @@ const FilterDuas = ({ duas }: { duas: Dua[] }) => {
     <div className="grid gap-4">
       {filteredDuas.length > 0 ? (
         filteredDuas.map((dua, index) => (
-          <Link
-            href={`/duas?cat_id=${dua.cat_id}&subcat_id=${dua.subcat_id}&duas_id=${dua.dua_id}`}
-            className="bg-white py-4 px-8 rounded-xl space-y-5"
-            key={index}
-          >
-            <div className="space-y-5">
+          <div className="bg-white py-4 px-8 rounded-xl space-y-5" key={index}>
+            <Link
+              href={`/duas?cat_id=${dua.cat_id}&subcat_id=${dua.subcat_id}&duas_id=${dua.dua_id}`}
+              className="space-y-5"
+            >
               <div className="flex items-center gap-4 font-semibold text-custom-green">
                 <Image
                   src={duacard}
@@ -66,10 +65,10 @@ const FilterDuas = ({ duas }: { duas: Dua[] }) => {
                 <p className="font-semibold text-custom-green">Reference: </p>
                 <p>{dua.refference_en}</p>
               </div>
-            </div>
-            {/* Comment bar */}
+            </Link>
+
             <DuaComent />
-          </Link>
+          </div>
         ))
       ) : (
         <p className="text-center text-gray-500">No Duas Found.</p>

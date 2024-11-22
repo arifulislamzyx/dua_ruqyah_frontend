@@ -49,11 +49,6 @@ const CategoryCard: React.FC<CategoryProps> = ({ category, filterSubcat }) => {
     return duasData.filter((duas) => duas.subcat_id === activeSubCatId);
   }, [duasData, activeSubCatId]);
 
-  console.log("Duas=====>", duasUnderSubCategory);
-  console.log("Duas", duasData);
-  console.log("selctedCategory", selctedCategory);
-  console.log("filteredSubcat=>", mainSubCat);
-
   const handleCategoryClick = (cateoryId: number) => {
     setIsActiveCat((prev) => !prev);
     setSelectedCategory(cateoryId);
@@ -64,7 +59,6 @@ const CategoryCard: React.FC<CategoryProps> = ({ category, filterSubcat }) => {
   };
 
   const handleSubCategoryClick = (subCategoryId: number) => {
-    console.log("sub category=>", subCategoryId);
     setIsActiveSubCat((prev) => !prev);
     setSubCategoryId(subCategoryId);
     const url = new URL(window.location.href);
@@ -73,7 +67,6 @@ const CategoryCard: React.FC<CategoryProps> = ({ category, filterSubcat }) => {
   };
 
   const handleDuaClick = (duasId: number) => {
-    console.log("Duas CLick=> ", duasId);
     const url = new URL(window.location.href);
     url.searchParams.set("duas_id", duasId.toString());
     window.history.pushState({}, "", url);
@@ -81,10 +74,9 @@ const CategoryCard: React.FC<CategoryProps> = ({ category, filterSubcat }) => {
 
   return (
     <div>
-      {/* Category Card */}
       <div
         onClick={() => handleCategoryClick(category.cat_id)}
-        className={`flex items-center gap-2 2xl:gap-4 p-2.5 bg-white hover:bg-slate-100 transition-all border-b-2 rounded-[10px] ${
+        className={`flex items-center gap-2 2xl:gap-4 p-2.5 bg-white hover:bg-slate-100 transition-all border-b-2 rounded-[10px] cursor-pointer ${
           isActiveCat ? "bg-slate-200" : ""
         }`}
       >
@@ -105,38 +97,18 @@ const CategoryCard: React.FC<CategoryProps> = ({ category, filterSubcat }) => {
         </div>
       </div>
 
-      {/* Subcategories List */}
       {isActiveCat && (
         <div className="pl-5 bg-gray-50">
           {mainSubCat?.length > 0 ? (
             mainSubCat.map((subCategory: SubCategory, index) => (
               <div
                 key={index}
-                className={`p-3 border-dotted border-gray-200 hover:bg-slate-100 transition-all ${
+                className={`p-3 border-dotted border-gray-200 hover:bg-slate-100 transition-all cursor-pointer ${
                   activeSubCatId === subCategory.subcat_id ? "bg-slate-200" : ""
                 }`}
                 onClick={() => handleSubCategoryClick(subCategory.subcat_id)}
               >
                 <li>{subCategory.subcat_name_en || "Unnamed Subcategory"}</li>
-                {isActiveSubCat && (
-                  <div className="pl-8 bg-white">
-                    {filteredDuas.length > 0 ? (
-                      duasUnderSubCategory?.map((dua, index) => (
-                        <div
-                          key={index}
-                          className="p-3 border-b border-gray-200 hover:bg-slate-100 transition-all border"
-                          onClick={() => handleDuaClick(dua.dua_id)}
-                        >
-                          <li>{dua.dua_name_en || "Unnamed Dua"}</li>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="p-3 text-gray-500">
-                        No duas available for this subcategory.
-                      </p>
-                    )}
-                  </div>
-                )}
               </div>
             ))
           ) : (
@@ -144,8 +116,25 @@ const CategoryCard: React.FC<CategoryProps> = ({ category, filterSubcat }) => {
           )}
         </div>
       )}
-
-      {/* Filtered Duas List */}
+      {isActiveSubCat && (
+        <div className="pl-8 bg-white">
+          {filteredDuas.length > 0 ? (
+            duasUnderSubCategory?.map((dua, index) => (
+              <div
+                key={index}
+                className="p-3 border-b border-gray-200 hover:bg-slate-100 transition-all border cursor-pointer"
+                onClick={() => handleDuaClick(dua.dua_id)}
+              >
+                <li>{dua.dua_name_en || "Unnamed Dua"}</li>
+              </div>
+            ))
+          ) : (
+            <p className="p-3 text-gray-500">
+              No duas available for this subcategory.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

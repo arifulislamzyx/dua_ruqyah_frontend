@@ -2,15 +2,14 @@ import { Category } from "@/types/types";
 import React from "react";
 import CategoryCard from "./CategoryCard";
 import axios from "axios";
+import { base_url } from "@/utils/baseurl";
 
 const DisplayCategories = async () => {
-  const res = await axios("http://localhost:8000/categories");
+  const res = await axios(`${base_url}/categories`);
   const categories = await res.data;
 
-  const fetchSubcat: Response = await fetch(
-    "http://localhost:8000/subcategories"
-  );
-  const subCat = await fetchSubcat.json();
+  const fetchSubcat = await axios(`${base_url}/subcategories`);
+  const subCat = await fetchSubcat.data;
 
   const filterSubcat = categories.map((category: Category) => {
     const subCategory = subCat.filter(

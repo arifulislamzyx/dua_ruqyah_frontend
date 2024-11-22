@@ -1,12 +1,10 @@
 import DisplayCategories from "./DisplayCategories";
 import fetchDuas from "@/fetch/fetchDuas";
-import FilterDuas from "./FilterDuas"; // Client Component for filtering
+import FilterDuas from "./FilterDuas";
 import { Dua } from "@/types/types";
 
 const Duas = async () => {
   const duas: Dua[] = await fetchDuas();
-
-  console.log(duas);
 
   return (
     <div className="col-span-4 space-y-2.5 h-full overflow-auto">
